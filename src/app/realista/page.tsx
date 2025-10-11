@@ -13,6 +13,13 @@ export default function RealistaPage() {
         "art024.jpg",
         "art026.jpg",
         "art028.jpg",
+        "art029.jpg",
+        "art039.jpg",
+        "art042.jpg",
+        "art043.jpg",
+        "art047.jpg",
+        "art048.jpg",
+        "art049.jpg",
     ];
 
     return (
