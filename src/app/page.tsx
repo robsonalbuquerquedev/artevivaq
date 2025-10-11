@@ -1,103 +1,129 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import { FaInstagram, FaPaintBrush, FaUserAlt, FaArrowRight } from "react-icons/fa";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <main className="min-h-screen bg-gradient-to-b from-pink-50 to-rose-100 flex flex-col items-center justify-center py-20 text-center px-6">
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+      {/* Seção de Boas-Vindas */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="flex flex-col items-center mb-16"
+      >
+        <Image
+          src="/logoartevivaq.png"
+          alt="Logo ArteVivaQ"
+          width={180}
+          height={180}
+          className="rounded-full shadow-lg mb-6"
+        />
+        <h1 className="text-4xl font-bold text-pink-700 mb-2">Bem-vindo à ArteVivaQ 🎨</h1>
+        <p className="text-gray-600 max-w-2xl">
+          Onde a arte ganha vida pelas mãos de <strong>Sra. Albuquerque</strong>.
+          Um espaço dedicado à expressão criativa, à beleza dos traços e à inspiração de cada detalhe.
+        </p>
+      </motion.div>
+
+      {/* Seção sobre a artista */}
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="flex flex-col md:flex-row items-center gap-8 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg p-6 max-w-4xl mb-16"
+      >
+        <Image
+          src="/karla.jpg"
+          alt="Artista Karla Albuquerque"
+          width={180}
+          height={180}
+          className="rounded-full object-cover shadow-md"
+        />
+        <div className="text-left">
+          <h2 className="text-2xl font-semibold text-pink-700 mb-2">🎨 Sra. Albuquerque</h2>
+          <p className="text-gray-700 mb-3">
+            A mente criativa por trás da <strong>ArteVivaQ</strong>.
+            Apaixonada por desenhar desde a infância, ela expressa suas emoções e visões do mundo por meio de linhas, cores e personagens que ganham alma.
+          </p>
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://www.instagram.com/karla_albuquerqueoficial17/"
             target="_blank"
             rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-pink-600 hover:text-pink-700 transition font-medium"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+            <FaInstagram /> Siga no Instagram
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </motion.div>
+
+      {/* Seção sobre o desenvolvedor */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="flex flex-col md:flex-row-reverse items-center gap-8 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg p-6 max-w-4xl mb-16"
+      >
+        <Image
+          src="/robson.jpg"
+          alt="Desenvolvedor Robson Albuquerque"
+          width={180}
+          height={180}
+          className="rounded-full object-cover shadow-md"
+        />
+        <div className="text-left">
+          <h2 className="text-2xl font-semibold text-pink-700 mb-2">💻 Robson Albuquerque</h2>
+          <p className="text-gray-700 mb-3">
+            Desenvolvedor e criador deste site, apaixonado por tecnologia, design e boas ideias.
+            Seu objetivo foi transformar a arte da Sra. Albuquerque em uma experiência digital viva e inspiradora.
+          </p>
+          <a
+            href="https://www.instagram.com/robson.albuquerque_cm/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-pink-600 hover:text-pink-700 transition font-medium"
+          >
+            <FaInstagram /> Siga no Instagram
+          </a>
+        </div>
+      </motion.div>
+
+      {/* Seção de categorias */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="text-center"
+      >
+        <h2 className="text-3xl font-bold text-pink-700 mb-6">Explore a Galeria</h2>
+        <p className="text-gray-600 mb-8">Escolha uma categoria e mergulhe no universo artístico da ArteVivaQ:</p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { name: "Desenhos Animados", icon: <FaPaintBrush />, path: "/animados" },
+            { name: "Religiosos", icon: <FaPaintBrush />, path: "/religiosos" },
+            { name: "Arte Realista", icon: <FaPaintBrush />, path: "/realista" },
+            { name: "+18", icon: <FaPaintBrush />, path: "/adulto" },
+          ].map((cat, i) => (
+            <Link
+              key={i}
+              href={cat.path}
+              className="bg-white/80 backdrop-blur-md shadow-md hover:shadow-xl rounded-xl py-6 px-4 flex flex-col items-center transition transform hover:-translate-y-1"
+            >
+              <div className="text-pink-600 text-3xl mb-3">{cat.icon}</div>
+              <p className="font-semibold text-gray-700">{cat.name}</p>
+              <FaArrowRight className="text-pink-600 mt-2" />
+            </Link>
+          ))}
+        </div>
+      </motion.div>
+    </main>
   );
 }
