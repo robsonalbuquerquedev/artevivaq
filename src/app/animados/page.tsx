@@ -16,6 +16,17 @@ export default function AnimadosPage() {
         "art008.jpg",
         "art010.jpg",
         "art022.jpg",
+        "art030.jpg",
+        "art031.jpg",
+        "art032.jpg",
+        "art033.jpg",
+        "art038.jpg",
+        "art040.jpg",
+        "art041.jpg",
+        "art044.jpg",
+        "art045.jpg",
+        "art046.jpg",
+        "art050.jpg",
     ];
 
     return (
