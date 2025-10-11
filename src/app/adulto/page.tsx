@@ -16,6 +16,10 @@ export default function AdultoPage() {
         "art023.jpg",
         "art025.jpg",
         "art027.jpg",
+        "art034.jpg",
+        "art035.jpg",
+        "art036.jpg",
+        "art037.jpg",
     ];
 
     return (
