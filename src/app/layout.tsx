@@ -49,11 +49,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className="bg-gradient-to-b from-pink-50 to-rose-100 text-gray-800">
+      <body className="relative min-h-screen flex flex-col bg-gradient-to-b from-pink-50 to-rose-100 text-gray-800 selection:bg-pink-200/60 selection:text-pink-900 overflow-x-hidden">
+
+        {/* 🔹 Header (sidebar no desktop / topbar no mobile) */}
         <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
-        <ApoieCard />
+
+        {/* 🔹 Área principal ajustada dinamicamente */}
+        <div className="flex flex-col md:ml-72 flex-grow transition-all duration-300">
+          <main className="flex-grow pt-20 md:pt-10 px-6 pb-24">
+            {children}
+          </main>
+
+          {/* 🔹 Footer no final da coluna */}
+          <Footer />
+        </div>
+
+        {/* 🔹 Card flutuante */}
+        <div className="fixed bottom-6 right-6 z-50">
+          <ApoieCard />
+        </div>
       </body>
     </html>
   );
