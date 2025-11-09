@@ -1,58 +1,67 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { Copy, CheckCircle, QrCode } from "lucide-react";
+import { motion } from "framer-motion";
+import { QrCode, Copy, CheckCircle } from "lucide-react";
 
 interface PixCopyBlockProps {
     chavePix: string;
-    qrCodePath?: string; // opcional, caminho da imagem do QR Code
+    qrCodePath: string;
+    nome?: string; // opcional — ex: "Sra. Albuquerque"
+    tipo?: string; // opcional — ex: "E-mail"
 }
 
-export default function PixCopyBlock({ chavePix, qrCodePath }: PixCopyBlockProps) {
+export default function PixCopyBlock({
+    chavePix,
+    qrCodePath,
+    nome,
+    tipo,
+}: PixCopyBlockProps) {
     const [copied, setCopied] = useState(false);
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText(chavePix);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(chavePix);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2500);
+        } catch (err) {
+            console.error("Erro ao copiar chave Pix:", err);
+        }
     };
 
     return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="bg-white/80 backdrop-blur-md border border-pink-200 rounded-2xl shadow-lg p-6 flex flex-col md:flex-row items-center justify-center gap-6 max-w-2xl mx-auto"
-        >
-            {/* 🧾 QR Code Pix */}
-            {qrCodePath && (
-                <div className="flex flex-col items-center">
-                    <div className="bg-white p-3 rounded-xl shadow-inner">
-                        <Image
-                            src={qrCodePath}
-                            alt="QR Code Pix"
-                            width={160}
-                            height={160}
-                            className="rounded-lg shadow-md"
-                        />
-                    </div>
-                    <p className="text-sm text-gray-600 mt-2 flex items-center gap-1">
-                        <QrCode className="w-4 h-4 text-pink-600" />
-                        Escaneie com o app do seu banco
-                    </p>
-                </div>
-            )}
+        <div className="flex flex-col items-center">
+            {/* QR Code */}
+            <div className="bg-white p-4 rounded-2xl shadow-inner mb-4">
+                <Image
+                    src={qrCodePath}
+                    alt={`QR Code Pix ${nome ? `de ${nome}` : ""}`}
+                    width={200}
+                    height={200}
+                    className="rounded-lg shadow-md"
+                />
+            </div>
 
-            {/* 🔑 Chave Pix + botão copiar */}
-            <div className="text-center md:text-left">
-                <p className="font-semibold text-pink-800 mb-1">🔑 Chave Pix:</p>
+            <p className="text-sm text-gray-600 mb-4 flex items-center justify-center gap-2">
+                <QrCode className="w-4 h-4 text-pink-600" /> Escaneie com o app do seu banco
+            </p>
+
+            {/* Informações complementares */}
+            <div className="bg-white border border-pink-200 rounded-xl p-4 mb-4 shadow-inner w-full max-w-xs text-center">
+                {nome && (
+                    <p className="font-semibold text-pink-700 text-sm mb-1">{nome}</p>
+                )}
+                {tipo && (
+                    <p className="text-gray-600 text-xs mb-1">
+                        Tipo de chave: <strong>{tipo}</strong>
+                    </p>
+                )}
                 <p className="text-gray-800 font-medium select-all break-all">
                     {chavePix}
                 </p>
 
+                {/* Botão copiar */}
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     onClick={handleCopy}
@@ -69,6 +78,6 @@ export default function PixCopyBlock({ chavePix, qrCodePath }: PixCopyBlockProps
                     )}
                 </motion.button>
             </div>
-        </motion.div>
+        </div>
     );
 }
