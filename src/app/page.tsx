@@ -21,16 +21,37 @@ export default function Home() {
           <h1 className="text-5xl font-bold text-pink-700 mb-4">
             A arte ganha vida 🎨
           </h1>
+
           <p className="text-gray-700 text-lg mb-6 leading-relaxed">
             Bem-vindo à <strong>ArteVivaQ</strong>, o espaço criativo de{" "}
             <strong>Sra. Albuquerque</strong> — onde emoção e cor se transformam em expressão artística.
           </p>
+
           <Link
             href="#galeria"
-            className="inline-flex items-center gap-2 bg-pink-600 text-white px-6 py-3 rounded-full hover:bg-pink-700 transition font-medium"
+            className="inline-flex items-center gap-2 bg-pink-600 text-white px-6 py-3 rounded-full hover:bg-pink-700 transition font-medium shadow-md hover:shadow-lg"
           >
             Explorar Galeria <FaArrowRight />
           </Link>
+
+          {/* 🌙 Aviso sobre modo escuro (visível apenas no mobile) */}
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.5 }}
+            className="mt-6 text-sm text-gray-500 bg-white/70 backdrop-blur-sm border border-pink-100 rounded-xl p-3 inline-flex items-center justify-center gap-2 shadow-sm md:hidden"
+          >
+            <motion.span
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="text-pink-600 text-lg"
+            >
+              🌙
+            </motion.span>
+            <span>
+              Para uma <strong>melhor imersão visual</strong>, desative o modo escuro do seu dispositivo.
+            </span>
+          </motion.p>
         </motion.div>
 
         {/* Imagem */}
