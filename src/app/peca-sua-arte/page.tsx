@@ -14,32 +14,65 @@ import {
     CheckCircle,
     ShieldCheck,
 } from "lucide-react";
+import PixCopyBlock from "@/components/PixCopyBlock";
 
 export default function PecaSuaArte() {
     const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+    const [formData, setFormData] = useState({
+        nome: "",
+        email: "",
+        categoria: "",
+        descricao: "",
+        enviarImagem: false,
+    });
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const form = e.currentTarget;
-        const formData = new FormData(form);
-        formData.append("rota", "peca-sua-arte"); // Campo oculto anti-spam
 
-        const response = await fetch("https://formsubmit.co/ajax/4e955f7fefc407e2eded8c5f9cf357e3", {
-            method: "POST",
-            body: formData,
-        });
+        const { nome, email, categoria, descricao } = formData;
 
-        if (response.ok) {
-            setStatus("success");
-            form.reset();
-
-            // Redirecionamento suave para uma tela de agradecimento
-            setTimeout(() => {
-                window.location.href = "/obrigado";
-            }, 3000);
-        } else {
-            setStatus("error");
+        if (!nome || !email || !categoria || !descricao) {
+            alert("Por favor, preencha todos os campos obrigatórios!");
+            return;
         }
+
+        // Monta a mensagem para o WhatsApp
+        const mensagem = encodeURIComponent(
+            `🎨 *Novo Pedido de Arte Personalizada* %0A%0A` +
+            `👤 *Nome:* ${nome}%0A` +
+            `📧 *E-mail:* ${email}%0A` +
+            `🖌️ *Categoria:* ${categoria}%0A` +
+            `💭 *Descrição:* ${descricao}%0A` +
+            `🖼️ *Deseja enviar imagem de referência:* ${formData.enviarImagem ? "Sim ✅" : "Não ❌"
+            }%0A%0A` +
+            `Enviado via ArteVivaQ 🌸`
+        );
+
+        // Número da artista (com código do país e DDD)
+        const numeroWhatsApp = "5581995450707";
+        const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
+
+        // Abre o WhatsApp em nova aba
+        window.open(linkWhatsApp, "_blank");
+
+        // Mostra status de sucesso e limpa o formulário
+        setStatus("success");
+        setFormData({
+            nome: "",
+            email: "",
+            categoria: "",
+            descricao: "",
+            enviarImagem: false,
+        });
+        
+        // Remove a mensagem de sucesso após alguns segundos
+        setTimeout(() => setStatus("idle"), 4000);
     };
 
     return (
@@ -92,9 +125,6 @@ export default function PecaSuaArte() {
                 transition={{ duration: 0.6 }}
                 className="bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-8 w-full max-w-2xl text-left space-y-6"
             >
-                {/* Campo oculto anti-spam */}
-                <input type="hidden" name="rota" value="peca-sua-arte" />
-
                 {/* Nome */}
                 <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -104,7 +134,9 @@ export default function PecaSuaArte() {
                         <User className="text-pink-600 w-5 h-5" />
                         <input
                             type="text"
-                            name="Nome"
+                            name="nome"
+                            value={formData.nome}
+                            onChange={handleChange}
                             required
                             className="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
                             placeholder="Digite seu nome completo"
@@ -121,7 +153,9 @@ export default function PecaSuaArte() {
                         <Mail className="text-pink-600 w-5 h-5" />
                         <input
                             type="email"
-                            name="Email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
                             required
                             className="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
                             placeholder="Seu e-mail para contato"
@@ -137,7 +171,9 @@ export default function PecaSuaArte() {
                     <div className="flex items-center gap-3">
                         <Palette className="text-pink-600 w-5 h-5" />
                         <select
-                            name="Categoria"
+                            name="categoria"
+                            value={formData.categoria}
+                            onChange={handleChange}
                             required
                             className="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
                         >
@@ -158,7 +194,9 @@ export default function PecaSuaArte() {
                     <div className="flex items-start gap-3">
                         <MessageSquare className="text-pink-600 w-5 h-5 mt-3" />
                         <textarea
-                            name="Descrição"
+                            name="descricao"
+                            value={formData.descricao}
+                            onChange={handleChange}
                             required
                             rows={4}
                             className="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
@@ -167,29 +205,47 @@ export default function PecaSuaArte() {
                     </div>
                 </div>
 
-                {/* Imagem de referência */}
+                {/* Deseja enviar imagem? */}
                 <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">
-                        Enviar imagem de referência (opcional)
+                        Deseja enviar uma imagem de referência pelo WhatsApp?
                     </label>
                     <div className="flex items-center gap-3">
-                        <ImageIcon className="text-pink-600 w-5 h-5" />
                         <input
-                            type="file"
-                            name="Imagem de Referência"
-                            accept="image/*"
-                            className="w-full text-gray-700 cursor-pointer"
+                            type="checkbox"
+                            name="enviarImagem"
+                            checked={formData.enviarImagem}
+                            onChange={(e) =>
+                                setFormData({ ...formData, enviarImagem: e.target.checked })
+                            }
+                            className="w-5 h-5 accent-pink-600 cursor-pointer"
                         />
+                        <span className="text-gray-700 text-sm">
+                            Sim, pretendo enviar uma imagem junto à conversa.
+                        </span>
                     </div>
                 </div>
+
+                <p className="text-sm text-gray-500 mt-2">
+                    📸 Caso marque essa opção, envie a imagem de referência diretamente na conversa do WhatsApp após clicar em “Enviar via WhatsApp”.
+                </p>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="bg-pink-50 border border-pink-200 rounded-xl text-sm text-gray-700 text-center px-4 py-3 flex items-center justify-center gap-2 shadow-sm"
+                >
+                    💬 <span>Ao clicar em <strong>Enviar via WhatsApp</strong>, você será redirecionado para conversar diretamente com a artista.</span>
+                </motion.div>
 
                 {/* Botão de envio */}
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     type="submit"
-                    disabled={status === "success"} // evita duplo envio
+                    disabled={status === "success"}
                     className={`w-full font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer 
-    ${status === "success"
+        ${status === "success"
                             ? "bg-green-500 text-white"
                             : "bg-pink-600 hover:bg-pink-700 text-white"
                         }`}
@@ -200,7 +256,7 @@ export default function PecaSuaArte() {
                         </>
                     ) : (
                         <>
-                            <Send className="w-5 h-5" /> Enviar pedido
+                            <Send className="w-5 h-5" /> Enviar via WhatsApp
                         </>
                     )}
                 </motion.button>
@@ -213,14 +269,8 @@ export default function PecaSuaArte() {
                         className="text-green-600 flex items-center gap-2 mt-4"
                     >
                         <CheckCircle className="w-5 h-5" />
-                        Pedido enviado com sucesso! Redirecionando...
+                        Pedido enviado! Abra o WhatsApp para finalizar com a artista.
                     </motion.p>
-                )}
-
-                {status === "error" && (
-                    <p className="text-red-600 mt-4">
-                        Ocorreu um erro ao enviar. Tente novamente.
-                    </p>
                 )}
             </motion.form>
 
@@ -238,10 +288,12 @@ export default function PecaSuaArte() {
                 <p className="mb-3">
                     Após o envio do formulário, a artista enviará o valor e as instruções para pagamento via Pix.
                 </p>
-                <p className="font-semibold text-pink-800">
-                    🔑 Chave Pix:{" "}
-                    <span className="text-gray-800">karla.albuquerque.pix@gmail.com</span>
-                </p>
+
+                <PixCopyBlock
+                    chavePix="karla.simone2025@gmail.com"
+                    qrCodePath="/pix-karla.png" // caminho da imagem do QR Code
+                />
+
                 <p className="text-sm text-gray-500 mt-2">
                     (Envie o comprovante após confirmação do valor)
                 </p>
