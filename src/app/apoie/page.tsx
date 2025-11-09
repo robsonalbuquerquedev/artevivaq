@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Coffee, Copy, CheckCircle, ArrowLeft, Wallet, QrCode } from "lucide-react";
 import { useState } from "react";
+import PixCopyBlock from "@/components/PixCopyBlock";
 
 export default function Apoie() {
     const [copied, setCopied] = useState(false);
@@ -75,44 +76,13 @@ export default function Apoie() {
                     Se desejar contribuir, envie via Pix:
                 </p>
 
-                {/* QR Code Pix */}
-                <div className="flex flex-col items-center mb-6">
-                    <div className="bg-white p-4 rounded-2xl shadow-inner">
-                        <Image
-                            src="/pix-robson.png"
-                            alt="QR Code Pix do desenvolvedor"
-                            width={200}
-                            height={200}
-                            className="rounded-lg shadow-md"
-                        />
-                    </div>
-                    <p className="text-sm text-gray-600 mt-2 flex items-center justify-center gap-2">
-                        <QrCode className="w-4 h-4 text-pink-600" /> Escaneie com seu app bancário
-                    </p>
-                </div>
+                {/* 🔁 Reutilização do componente PixCopyBlock */}
+                <PixCopyBlock
+                    chavePix="robson.albuquerque.dev@gmail.com"
+                    qrCodePath="/pix-robson.png"
+                />
 
-                {/* Chave Pix */}
-                <div className="bg-white border border-pink-200 rounded-xl p-4 mb-4 shadow-inner">
-                    <p className="font-semibold text-pink-700">🔑 Chave Pix:</p>
-                    <p className="text-gray-800 font-medium select-all mt-1">{chavePix}</p>
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        onClick={handleCopy}
-                        className="mt-3 inline-flex items-center gap-2 bg-pink-600 text-white px-4 py-2 rounded-full hover:bg-pink-700 transition font-medium cursor-pointer"
-                    >
-                        {copied ? (
-                            <>
-                                <CheckCircle className="w-5 h-5" /> Copiado!
-                            </>
-                        ) : (
-                            <>
-                                <Copy className="w-5 h-5" /> Copiar chave Pix
-                            </>
-                        )}
-                    </motion.button>
-                </div>
-
-                {/* Mensagem de gratidão */}
+                {/* 💬 Mensagem de gratidão */}
                 <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
