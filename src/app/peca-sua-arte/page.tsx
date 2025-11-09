@@ -44,13 +44,12 @@ export default function PecaSuaArte() {
 
         // Monta a mensagem para o WhatsApp
         const mensagem = encodeURIComponent(
-            `🎨 *Novo Pedido de Arte Personalizada* %0A%0A` +
-            `👤 *Nome:* ${nome}%0A` +
-            `📧 *E-mail:* ${email}%0A` +
-            `🖌️ *Categoria:* ${categoria}%0A` +
-            `💭 *Descrição:* ${descricao}%0A` +
-            `🖼️ *Deseja enviar imagem de referência:* ${formData.enviarImagem ? "Sim ✅" : "Não ❌"
-            }%0A%0A` +
+            `🎨 *Novo Pedido de Arte Personalizada*\n\n` +
+            `👤 *Nome:* ${nome}\n` +
+            `📧 *E-mail:* ${email}\n` +
+            `🖌️ *Categoria:* ${categoria}\n` +
+            `💭 *Descrição:* ${descricao}\n` +
+            `🖼️ *Deseja enviar imagem de referência:* ${formData.enviarImagem ? "Sim ✅" : "Não ❌"}\n\n` +
             `Enviado via ArteVivaQ 🌸`
         );
 
@@ -70,7 +69,7 @@ export default function PecaSuaArte() {
             descricao: "",
             enviarImagem: false,
         });
-        
+
         // Remove a mensagem de sucesso após alguns segundos
         setTimeout(() => setStatus("idle"), 4000);
     };
@@ -116,6 +115,19 @@ export default function PecaSuaArte() {
                     />
                 </motion.div>
             </section>
+
+            <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="bg-pink-50/90 border border-pink-200 text-xs sm:text-sm text-gray-700 rounded-xl p-4 mb-6 text-center shadow-sm leading-relaxed sm:leading-normal"
+            >
+                <strong>Dica:</strong> Em alguns celulares no <strong>modo escuro</strong>,
+                os textos de instrução dentro dos campos podem ficar mais difíceis de ler.
+                <br className="hidden sm:block" />
+                Se preferir, <strong>desative o modo escuro</strong> temporariamente para melhor visualização —
+                isso <strong>não afeta o envio</strong> da mensagem.
+            </motion.div>
 
             {/* 📝 FORMULÁRIO */}
             <motion.form
