@@ -303,7 +303,9 @@ export default function PecaSuaArte() {
 
                 <PixCopyBlock
                     chavePix="karla.simone2025@gmail.com"
-                    qrCodePath="/pix-karla.png" // caminho da imagem do QR Code
+                    qrCodePath="/pix-karla.png"
+                    nome="Sra. Albuquerque"
+                    tipo="E-mail"
                 />
 
                 <p className="text-sm text-gray-500 mt-2">
