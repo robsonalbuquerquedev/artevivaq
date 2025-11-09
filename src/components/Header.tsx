@@ -3,17 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import {
-    Menu,
-    X,
     Home,
     Palette,
-    MessageCircle,
     HandHeart,
-    HeartHandshake,
     Coffee,
+    MessageCircle,
+    Menu,
+    X,
 } from "lucide-react";
 
 export default function Header() {
@@ -32,111 +31,128 @@ export default function Header() {
     ];
 
     return (
-        <header className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md shadow-sm z-50">
-            <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-                {/* 🔹 Logo */}
-                <Link href="/" className="flex items-center gap-3 group">
+        <>
+            {/* 🔹 Sidebar Desktop */}
+            <aside className="hidden md:flex flex-col w-72 h-screen fixed top-0 left-0 bg-gradient-to-b from-pink-50 via-rose-100 to-pink-50 border-r border-pink-100 shadow-lg p-6 z-40">
+                {/* Logo */}
+                <Link href="/" className="mb-10 flex items-center gap-3 group">
                     <Image
                         src="/logoartevivaq.png"
-                        alt="ArteVivaQ Logo"
                         width={45}
                         height={45}
-                        className="rounded-full border border-pink-200 group-hover:scale-105 transition"
+                        alt="ArteVivaQ Logo"
+                        className="rounded-full border border-pink-200 shadow-sm group-hover:scale-105 transition"
                     />
                     <span className="text-2xl font-bold text-pink-700 group-hover:text-pink-600 transition">
                         ArteVivaQ
                     </span>
                 </Link>
 
-                {/* 🔹 Botão Hamburguer */}
-                <button
-                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    className="text-pink-700 text-2xl md:hidden"
-                    aria-label="Abrir menu"
-                >
-                    {isSidebarOpen ? <X /> : <Menu />}
-                </button>
-            </div>
+                {/* Navegação */}
+                <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+                    Navegação
+                </p>
+                <nav className="flex flex-col gap-2 mb-8">
+                    {links.slice(0, 5).map((link) => (
+                        <Link
+                            key={link.path}
+                            href={link.path}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:text-pink-700 hover:bg-pink-100 transition ${pathname === link.path
+                                    ? "bg-pink-100 text-pink-700 font-semibold"
+                                    : ""
+                                }`}
+                        >
+                            {link.icon}
+                            {link.name}
+                        </Link>
+                    ))}
+                </nav>
 
-            {/* 🔹 Linha de destaque */}
-            <motion.div
-                className="h-[2px] bg-gradient-to-r from-pink-500 to-rose-400"
-                layoutId="underline"
-            />
+                <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+                    Projeto
+                </p>
+                <nav className="flex flex-col gap-2">
+                    {links.slice(5).map((link) => (
+                        <Link
+                            key={link.path}
+                            href={link.path}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:text-pink-700 hover:bg-pink-100 transition ${pathname === link.path
+                                    ? "bg-pink-100 text-pink-700 font-semibold"
+                                    : ""
+                                }`}
+                        >
+                            {link.icon}
+                            {link.name}
+                        </Link>
+                    ))}
+                </nav>
+            </aside>
 
-            {/* 🔹 Sidebar (Desktop e Mobile) */}
-            <AnimatePresence>
-                {isSidebarOpen && (
-                    <motion.aside
-                        initial={{ x: "100%" }}
-                        animate={{ x: 0 }}
-                        exit={{ x: "100%" }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
-                        className="fixed top-0 right-0 h-full w-72 bg-white/95 backdrop-blur-md shadow-2xl z-50 flex flex-col justify-between"
+            {/* 🔹 Header Mobile */}
+            <header className="md:hidden fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md shadow-sm border-b border-pink-100 z-50">
+                <div className="flex items-center justify-between px-5 py-4">
+                    <Link href="/" className="flex items-center gap-3">
+                        <Image
+                            src="/logoartevivaq.png"
+                            alt="ArteVivaQ Logo"
+                            width={40}
+                            height={40}
+                            className="rounded-full border border-pink-200"
+                        />
+                        <span className="text-xl font-bold text-pink-700">ArteVivaQ</span>
+                    </Link>
+
+                    <button
+                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                        className="text-pink-700 text-3xl focus:outline-none"
                     >
-                        {/* Conteúdo do menu */}
-                        <div>
-                            {/* Logo no topo */}
-                            <div className="flex items-center justify-between px-6 py-4 border-b border-pink-100">
-                                <Link href="/" onClick={() => setIsSidebarOpen(false)} className="flex items-center gap-3">
-                                    <Image
-                                        src="/logoartevivaq.png"
-                                        alt="ArteVivaQ"
-                                        width={40}
-                                        height={40}
-                                        className="rounded-full border border-pink-200"
-                                    />
-                                    <span className="text-xl font-semibold text-pink-700">ArteVivaQ</span>
-                                </Link>
+                        {isSidebarOpen ? <X /> : <Menu />}
+                    </button>
+                </div>
+            </header>
+
+            {/* 🔹 Sidebar Mobile (retraível, sem sobreposição) */}
+            <motion.aside
+                initial={false}
+                animate={{ width: isSidebarOpen ? "16rem" : "0rem" }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="fixed top-0 left-0 h-screen bg-gradient-to-b from-pink-50 via-rose-100 to-pink-50 border-r border-pink-100 shadow-lg overflow-hidden z-40 md:hidden"
+            >
+                <div className={`flex flex-col h-full ${isSidebarOpen ? "p-6" : "p-0"}`}>
+                    {isSidebarOpen && (
+                        <>
+                            <div className="flex items-center justify-between mb-8">
+                                <span className="text-lg font-semibold text-pink-700">
+                                    Menu
+                                </span>
                                 <button
                                     onClick={() => setIsSidebarOpen(false)}
-                                    className="text-pink-600 text-xl hover:text-pink-700 transition"
+                                    className="text-pink-700 text-2xl hover:text-pink-800 transition"
                                 >
                                     <X />
                                 </button>
                             </div>
 
-                            {/* Lista de links */}
-                            <nav className="flex flex-col px-6 py-4 space-y-3 overflow-y-auto">
+                            <div className="flex-1 overflow-y-auto space-y-3">
                                 {links.map((link) => (
                                     <Link
                                         key={link.path}
                                         href={link.path}
                                         onClick={() => setIsSidebarOpen(false)}
-                                        className={`flex items-center gap-3 rounded-xl px-4 py-2 text-gray-700 hover:bg-pink-100 hover:text-pink-700 transition ${pathname === link.path ? "bg-pink-100 text-pink-700 font-semibold" : ""
+                                        className={`flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:text-pink-800 hover:bg-pink-100 transition ${pathname === link.path
+                                                ? "bg-pink-100 text-pink-700 font-semibold"
+                                                : ""
                                             }`}
                                     >
                                         {link.icon}
                                         {link.name}
                                     </Link>
                                 ))}
-                            </nav>
-                        </div>
-
-                        {/* Rodapé do sidebar */}
-                        <div className="px-6 py-4 border-t border-pink-100 text-sm text-gray-500 text-center">
-                            © {new Date().getFullYear()} — ArteVivaQ
-                            <br />
-                            <span className="text-pink-700 font-medium">Por Robson Albuquerque</span>
-                        </div>
-                    </motion.aside>
-                )}
-            </AnimatePresence>
-
-            {/* 🔹 Menu Desktop tradicional */}
-            <nav className="hidden md:flex items-center justify-center gap-6 py-3">
-                {links.map((link) => (
-                    <Link
-                        key={link.path}
-                        href={link.path}
-                        className={`flex items-center gap-2 text-gray-600 hover:text-pink-600 transition ${pathname === link.path ? "font-semibold text-pink-700" : ""
-                            }`}
-                    >
-                        {link.icon}
-                        {link.name}
-                    </Link>
-                ))}
-            </nav>
-        </header>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </motion.aside>
+        </>
     );
 }
