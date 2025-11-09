@@ -187,9 +187,22 @@ export default function PecaSuaArte() {
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     type="submit"
-                    className="w-full bg-pink-600 text-white font-semibold py-3 rounded-xl hover:bg-pink-700 transition flex items-center justify-center gap-2 cursor-pointer"
+                    disabled={status === "success"} // evita duplo envio
+                    className={`w-full font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer 
+    ${status === "success"
+                            ? "bg-green-500 text-white"
+                            : "bg-pink-600 hover:bg-pink-700 text-white"
+                        }`}
                 >
-                    <Send className="w-5 h-5" /> Enviar pedido
+                    {status === "success" ? (
+                        <>
+                            <CheckCircle className="w-5 h-5" /> Enviado!
+                        </>
+                    ) : (
+                        <>
+                            <Send className="w-5 h-5" /> Enviar pedido
+                        </>
+                    )}
                 </motion.button>
 
                 {/* Mensagens de status */}
@@ -203,6 +216,7 @@ export default function PecaSuaArte() {
                         Pedido enviado com sucesso! Redirecionando...
                     </motion.p>
                 )}
+
                 {status === "error" && (
                     <p className="text-red-600 mt-4">
                         Ocorreu um erro ao enviar. Tente novamente.
