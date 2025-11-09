@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaPaperPlane, FaUser, FaComment } from "react-icons/fa";
+import { Send, User, MessageSquare, CheckCircle, XCircle, Moon } from "lucide-react";
 
 export default function FeedbackPage() {
     const [form, setForm] = useState({ name: "", message: "" });
@@ -28,6 +28,7 @@ export default function FeedbackPage() {
             if (data.success || response.ok) {
                 setStatus("success");
                 setForm({ name: "", message: "" });
+                setTimeout(() => setStatus("idle"), 4000);
             } else {
                 setStatus("error");
             }
@@ -37,82 +38,120 @@ export default function FeedbackPage() {
     };
 
     return (
-        <main className="min-h-screen bg-gradient-to-b from-pink-50 to-white flex items-center justify-center px-6 py-12">
-            <motion.div
-                className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-            >
-                <h1 className="text-2xl font-bold text-pink-700 mb-6 flex items-center gap-2">
-                    <FaPaperPlane /> Feedback
-                </h1>
-                <p className="text-gray-500 mb-6">
-                    Envie sua mensagem para a ArteVivaQ. Responderemos assim que possível!
-                </p>
+        <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-pink-50 via-rose-100 to-pink-50 py-16 px-6 overflow-hidden relative">
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    {/* Nome */}
-                    <motion.div className="relative" whileFocus={{ scale: 1.02 }}>
-                        <FaUser className="absolute left-3 top-3 text-gray-400" />
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Seu nome"
-                            value={form.name}
-                            onChange={handleChange}
-                            required
-                            className="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-400"
-                        />
+            {/* 🔹 Fundo artístico */}
+            <div className="absolute inset-0 bg-[url('/texture.svg')] opacity-10 mix-blend-overlay" />
+
+            {/* 🔹 Hero Split */}
+            <section className="relative flex flex-col md:flex-row items-center justify-between w-full max-w-5xl bg-white/60 backdrop-blur-md rounded-[2rem] shadow-xl overflow-hidden border border-pink-100">
+
+                {/* Lado esquerdo - mensagem */}
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="md:w-1/2 text-center md:text-left p-10 bg-gradient-to-b from-pink-100 via-rose-100 to-pink-50"
+                >
+                    <h1 className="text-3xl font-bold text-pink-800 mb-3">📩 Envie seu Feedback</h1>
+                    <p className="text-gray-700 leading-relaxed mb-4">
+                        Sua opinião é muito importante para nós!
+                        Compartilhe suas ideias, sugestões ou impressões sobre o projeto{" "}
+                        <strong>ArteVivaQ</strong> 💕
+                    </p>
+                    <p className="text-sm text-gray-500">
+                        Cada mensagem ajuda a deixar nosso espaço ainda mais inspirador 🎨
+                    </p>
+                </motion.div>
+
+                {/* Lado direito - formulário */}
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="md:w-1/2 p-8"
+                >
+                    {/* 🔸 Aviso sobre o modo escuro */}
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="bg-pink-50 border border-pink-200 text-sm text-gray-700 rounded-xl p-3 mb-6 text-center shadow-sm"
+                    >
+                        <Moon className="inline-block w-4 h-4 mr-1 text-pink-600" />
+                        <strong>Dica:</strong> Se os textos estiverem difíceis de ler, desative o modo escuro do navegador.
+                        Isso <strong>não afeta o envio</strong> — apenas melhora a visualização. 🌙
                     </motion.div>
 
-                    {/* Mensagem */}
-                    <motion.div className="relative" whileFocus={{ scale: 1.02 }}>
-                        <FaComment className="absolute left-3 top-3 text-gray-400" />
-                        <textarea
-                            name="message"
-                            placeholder="Sua mensagem"
-                            value={form.message}
-                            onChange={handleChange}
-                            required
-                            rows={5}
-                            className="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-full resize-none focus:outline-none focus:ring-2 focus:ring-pink-400"
-                        />
-                    </motion.div>
+                    {/* 🔸 Formulário */}
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        {/* Nome */}
+                        <div className="relative">
+                            <User className="absolute left-3 top-3 text-pink-600" />
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Seu nome"
+                                value={form.name}
+                                onChange={handleChange}
+                                required
+                                className="border border-gray-300 rounded-xl pl-10 pr-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/70 backdrop-blur-sm text-gray-800"
+                            />
+                        </div>
 
-                    {/* Botão enviar */}
-                    <motion.button
-                        type="submit"
-                        disabled={status === "loading"}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="bg-pink-600 text-white py-2 rounded-lg hover:bg-pink-700 transition flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                        {status === "loading" ? "Enviando..." : "Enviar"}
-                        {status !== "loading" && <FaPaperPlane />}
-                    </motion.button>
-                </form>
+                        {/* Mensagem */}
+                        <div className="relative">
+                            <MessageSquare className="absolute left-3 top-3 text-pink-600" />
+                            <textarea
+                                name="message"
+                                placeholder="Escreva sua mensagem"
+                                value={form.message}
+                                onChange={handleChange}
+                                required
+                                rows={5}
+                                className="border border-gray-300 rounded-xl pl-10 pr-4 py-3 w-full resize-none focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/70 backdrop-blur-sm text-gray-800"
+                            />
+                        </div>
 
-                {/* Status da submissão */}
-                {status === "success" && (
-                    <motion.p
-                        className="mt-4 text-green-600 text-center"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                    >
-                        ✅ Mensagem enviada com sucesso!
-                    </motion.p>
-                )}
-                {status === "error" && (
-                    <motion.p
-                        className="mt-4 text-red-600 text-center"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                    >
-                        ❌ Ocorreu um erro. Tente novamente.
-                    </motion.p>
-                )}
-            </motion.div>
+                        {/* Botão de envio */}
+                        <motion.button
+                            type="submit"
+                            disabled={status === "loading"}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className={`cursor-pointer w-full font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition ${status === "loading"
+                                    ? "bg-pink-400 text-white cursor-not-allowed"
+                                    : "bg-pink-600 hover:bg-pink-700 text-white shadow-md"
+                                }`}
+                        >
+                            {status === "loading" ? "Enviando..." : "Enviar Feedback"}
+                            {status !== "loading" && <Send className="w-5 h-5" />}
+                        </motion.button>
+
+                        {/* Status do envio */}
+                        {status === "success" && (
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="text-green-600 flex items-center gap-2 justify-center mt-3"
+                            >
+                                <CheckCircle className="w-5 h-5" />
+                                Mensagem enviada com sucesso!
+                            </motion.p>
+                        )}
+                        {status === "error" && (
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="text-red-600 flex items-center gap-2 justify-center mt-3"
+                            >
+                                <XCircle className="w-5 h-5" />
+                                Ocorreu um erro. Tente novamente.
+                            </motion.p>
+                        )}
+                    </form>
+                </motion.div>
+            </section>
         </main>
     );
 }
