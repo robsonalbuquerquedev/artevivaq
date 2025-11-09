@@ -78,8 +78,10 @@ export default function Apoie() {
 
                 {/* 🔁 Reutilização do componente PixCopyBlock */}
                 <PixCopyBlock
-                    chavePix="robson.albuquerque.dev@gmail.com"
+                    chavePix="robalbuquerque98@gmail.com"
                     qrCodePath="/pix-robson.png"
+                    nome="Robson Albuquerque"
+                    tipo="E-mail"
                 />
 
                 {/* 💬 Mensagem de gratidão */}
