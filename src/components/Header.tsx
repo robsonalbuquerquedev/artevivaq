@@ -13,6 +13,7 @@ import {
     MessageCircle,
     Menu,
     X,
+    ShoppingBag,
 } from "lucide-react";
 
 export default function Header() {
@@ -27,6 +28,7 @@ export default function Header() {
         { name: "+18", path: "/adulto", icon: <Palette className="w-4 h-4" /> },
         { name: "Peça sua Arte", path: "/peca-sua-arte", icon: <HandHeart className="w-4 h-4" /> },
         { name: "Apoie o Projeto", path: "/apoie", icon: <Coffee className="w-4 h-4" /> },
+        { name: "Loja", path: "/loja", icon: <ShoppingBag className="w-4 h-4" /> },
         { name: "Feedback", path: "/feedback", icon: <MessageCircle className="w-4 h-4" /> },
     ];
 
@@ -58,8 +60,8 @@ export default function Header() {
                             key={link.path}
                             href={link.path}
                             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:text-pink-700 hover:bg-pink-100 transition ${pathname === link.path
-                                    ? "bg-pink-100 text-pink-700 font-semibold"
-                                    : ""
+                                ? "bg-pink-100 text-pink-700 font-semibold"
+                                : ""
                                 }`}
                         >
                             {link.icon}
@@ -77,8 +79,8 @@ export default function Header() {
                             key={link.path}
                             href={link.path}
                             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:text-pink-700 hover:bg-pink-100 transition ${pathname === link.path
-                                    ? "bg-pink-100 text-pink-700 font-semibold"
-                                    : ""
+                                ? "bg-pink-100 text-pink-700 font-semibold"
+                                : ""
                                 }`}
                         >
                             {link.icon}
@@ -140,8 +142,8 @@ export default function Header() {
                                         href={link.path}
                                         onClick={() => setIsSidebarOpen(false)}
                                         className={`flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:text-pink-800 hover:bg-pink-100 transition ${pathname === link.path
-                                                ? "bg-pink-100 text-pink-700 font-semibold"
-                                                : ""
+                                            ? "bg-pink-100 text-pink-700 font-semibold"
+                                            : ""
                                             }`}
                                     >
                                         {link.icon}
